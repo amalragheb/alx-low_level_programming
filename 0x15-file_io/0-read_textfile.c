@@ -12,44 +12,25 @@
 */
 ssize_t read_textfile(const char *filename, size_t letters)
 {
-
-	int file;
-	ssize_t rd, wr;
+	ssize_t opening, writing, reading;
 	char *buffer;
 
-	/*check if file is present*/
 	if (filename == NULL)
 		return (0);
-	/*open file*/
-	file = open(filename, O_RDONLY);
-
-	if (file == -1)
+	opening = open(filename, O_RDONLY);
+	if (opening == -1)
 		return (0);
-
-	/*size of buffer from number of letters*/
-	buffer = malloc(sizeof(char) * letters);
+	buffer = malloc(letters);
 	if (buffer == NULL)
-	{
-		free(buffer);
 		return (0);
-	}
-
-	/*read file*/
-	rd = read(file, buffer, letters);
-	/*check if read failed*/
-	if (rd == -1)
+	reading = read(opening, buffer, letters);
+	if (reading == -1)
 		return (0);
-
-	wr = write(STDOUT_FILENO, buffer, rd);
-	/*check if write failed*/
-	if (wr == -1 || rd != wr)
+	writing = write(STDOUT_FILENO, buffer, reading);
+	if (writing == -1 || writing != reading)
 		return (0);
-
+	close(opening);
 	free(buffer);
+	return (writing);
 
-	/*close file*/
-	close(file);
-
-	return (wr);
-}
 }
