@@ -37,12 +37,12 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	/*read file*/
 	rd = read(file, buffer, letters);
 	/*check if read failed*/
-	if (read_check == -1)
+	if (rd == -1)
 		return (0);
 
-	wr = write(STDOUT_FILENO, buffer, read_check);
+	wr = write(STDOUT_FILENO, buffer, rd);
 	/*check if write failed*/
-	if (wcount == -1 || read_check != wcount)
+	if (wr == -1 || rd != wr)
 		return (0);
 
 	free(buffer);
@@ -50,6 +50,6 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	/*close file*/
 	close(file);
 
-	return (wcount);
+	return (wr);
 }
 }
