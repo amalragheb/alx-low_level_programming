@@ -10,12 +10,12 @@
 
 size_t print_dlistint(const dlistint_t *h)
 {
-	int node_num = 0;
+	int num = 0;
 
 	while (h != NULL)
 	{
 		h = h->next;
-		node_num++;
+		num++;
 	}
-	return (node_num);
+	return (num);
 }
